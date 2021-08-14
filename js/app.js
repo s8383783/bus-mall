@@ -1,14 +1,16 @@
 // Global Variables
 let saleItems = []; 
+let itemValues = [];
+
 let myCatalog = document.querySelector('section')
 let myButton = document.querySelector('section + div');
 let image1 = document.querySelector('section  img:first-child');
 let image2 = document.querySelector('section  img:nth-child(2)');
-let image3 = document.querySelector('section  img:nth-child(2)');
+let image3 = document.querySelector('section  img:nth-child(3)');
 let clicks = 0;
-let clickssAllowed = 25;
+let clicksAllowed = 25;
 // Functions
-function item(name, fileLocation = 'jpg'){
+function item(name, fileLocation = 'jpg') {
     this.name = name
     this.src = `images/${name}.${fileLocation}`;
     this.views = 0;
@@ -22,6 +24,8 @@ function renderCatalog() {
     let rItem1 = selectItem();
     let rItem2 = selectItem();
     let rItem3 = selectItem();
+    itemValues.push(rItem1, rItem2, rItem3)
+
    
     while (rItem1 === rItem2 || rItem3) {
       rItem3 = selectItem();
@@ -50,17 +54,21 @@ function handleClick(e){
       console.log(clickItem);
       for (let i = 0; i < saleItems.length; i++) {
         if (clickItem === saleItems[i].name) {
-          saleItemsArray[i].votes++;
+          saleItems[i].votes++;
           break;
         }
     }
 
-renderItems();
+renderCatalog();
 if (clicks === clicksAllowed) {
-    myButton.className = 'clicks-allowed';
-    myContainer.removeEventListener('click', handleGoatClick);
+    myCatalog.removeEventListener('click', handleClick);
   }
 }
+
+function renderItems() {
+
+}
+
 function renderResults() {
     let ul = document.querySelector('ul');
     for (let i = 0; i < saleItems.length; i++) {
@@ -76,21 +84,23 @@ new item('boots')
 new item('breakfast')
 new item('bubblegum')
 new item('chair')
-new item('cthulu')
+new item('cthulhu')
 new item('dog-duck')
 new item('dragon')
 new item('pen')
 new item('pet-sweep')
 new item('scissors')
 new item('shark')
-new item('sweep')
+new item('sweep', 'png')
 new item('tauntaun')
 new item('unicorn')
 new item('water-can')
 new item('wine-glass')
 
   console.log(saleItems);
-renderItems();
+
 
 myCatalog.addEventListener('click', handleClick);
-myButton.addEventListener('click', renderResults);
+renderCatalog();
+renderResults();
+// myButton.addEventListener('click', renderResults);
