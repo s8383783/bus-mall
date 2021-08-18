@@ -1,21 +1,41 @@
+*{
+    background-color: gray;
+}
+
 #one{
     height: 200px;
     width: 200px;
+    padding: 20px;
 }
 #two{
     height: 200px;
     width: 200px;
+    padding: 20px;
 }
 #three{
     height: 200px;
     width: 200px;
+    padding: 20px;
+}
+#one:hover{
+    background-color: blue;
+}
+#two:hover{
+    background-color: blue;
+}
+#three:hover{
+    background-color: blue;
+}
+section{
+    border: black solid 8px;
+    border-radius: 16px;
 }
 main{
     background-color: gray;
     margin:auto;
 }
 header{
-    background-color: gray;
+    
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     color: white;
     
@@ -23,4 +43,14 @@ header{
 
 #resultsButton {
     display: none;
+}
+canvas {
+    max-width: 600px;
+    max-height: 600px;
+   
+}
+#myChart {
+    border: black 20px;
+    border-radius: 18px;
+    color:black ;
 }

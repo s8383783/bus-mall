@@ -3,7 +3,7 @@ let saleItems = [];
 let itemValues = [];
 
 let myCatalog = document.querySelector('section')
-let myButton = document.querySelector('section + div');
+// let myButton = document.querySelector('section + div');
 let image1 = document.querySelector('section  img:first-child');
 let image2 = document.querySelector('section  img:nth-child(2)');
 let image3 = document.querySelector('section  img:nth-child(3)');
@@ -44,6 +44,9 @@ function renderCatalog() {
   saleItems[rItem2].views++;
   saleItems[rItem3].views++;
 }
+// name array
+
+
 function handleClick(event) {
   event.preventDefault();
   if (event.target === myCatalog) {
@@ -55,40 +58,24 @@ function handleClick(event) {
   console.log(clickItem);
 
   for (let i = 0; i < saleItems.length; i++) {
-
-    if (clickItem === saleItems[i].name) {
-
-      saleItems[i].clicks++;
-
-      break;
-
-
-    }
+if (clickItem === saleItems[i].name) {
+saleItems[i].clicks++;
+break;
+}
   }
 
   renderCatalog();
   if (clicks === clicksAllowed) {
     resultsButton.style.display = 'block';
-    resultsButton.addEventListener('click', handleViewResults);
+    // resultsButton.addEventListener('click', handleViewResults);
     myCatalog.removeEventListener('click', handleClick);
+    renderChart();
 
   }
 }
 
-function handleViewResults (e){
-  e.preventDefault();
-  renderResults();
-  resultsButton.removeEventListener('click', handleViewResults);
-}
 
-function renderResults() {
-  let ul = document.querySelector('ul');
-  for (let i = 0; i < saleItems.length; i++) {
-    let li = document.createElement('li')
-    li.textContent = `${saleItems[i].name} had ${saleItems[i].views} views and was clicked ${saleItems[i].clicks} times.`;
-    ul.appendChild(li);
-  }
-}
+
 new item('bag')
 new item('banana')
 new item('bathroom')
@@ -108,10 +95,85 @@ new item('tauntaun')
 new item('unicorn')
 new item('water-can')
 new item('wine-glass')
+//
 
-console.log(saleItems);
+function renderChart() {
+  let itemNames = [];
+for (let i = 0; i < saleItems.length; i++) {
+  itemNames.push(saleItems[i].name)
+
+};
+let itemClicks = [];
+for (let i = 0; i < saleItems.length; i++) {
+  itemClicks.push(saleItems[i].clicks)
+
+};
+
+let itemViews = [];
+for (let i = 0; i < saleItems.length; i++) {
+  itemViews.push(saleItems[i].views)
+
+};
+  let ctx = document.getElementById('myChart').getContext('2d');
+  let myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: itemNames,
+      datasets: [{
+        label: '# of Views',
+        data: itemViews,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      },
+      {
+        label: '# of Clicks',
+        data: itemClicks,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+}
 
 
-myCatalog.addEventListener('click', handleClick);
 renderCatalog();
+myCatalog.addEventListener('click', handleClick);
+// renderCatalog();
 // myButton.addEventListener('click', renderResults);
