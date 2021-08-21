@@ -7,13 +7,12 @@ let myCatalog = document.querySelector('section')
 let image1 = document.querySelector('section  img:first-child');
 let image2 = document.querySelector('section  img:nth-child(2)');
 let image3 = document.querySelector('section  img:nth-child(3)');
-let resultsButton = document.getElementById('resultsButton');
 let clicks = 0;
-let clicksAllowed = 25;
+let clicksAllowed = 2;
 // Functions
-function item(name, fileLocation = 'jpg') {
+function Item(name, src) {
   this.name = name
-  this.src = `images/${name}.${fileLocation}`;
+  this.src = src
   this.views = 0;
   this.clicks = 0;
   saleItems.push(this);
@@ -45,7 +44,25 @@ function renderCatalog() {
   saleItems[rItem3].views++;
 }
 // name array
-
+new Item('bag', './images/bag.jpg')
+new Item('banana', './images/banana.jpg')
+new Item('bathroom', './images/bathroom.jpg')
+new Item('boots', './images/boots.jpg')
+new Item('breakfast', './images/breakfast.jpg')
+new Item('bubblegum', './images/bubblegum.jpg')
+new Item('chair', './images/chair.jpg')
+new Item('cthulhu', './images/cthulhu.jpg')
+new Item('dog-duck', './images/dog-duck.jpg')
+new Item('dragon', './images/dragon.jpg')
+new Item('pen', './images/pen.jpg')
+new Item('pet-sweep', './images/pet-sweep.jpg')
+new Item('scissors', './images/scissors.jpg')
+new Item('shark', './images/shark.jpg')
+new Item('sweep', './images/sweep.png')
+new Item('tauntaun', './images/tauntaun.jpg')
+new Item('unicorn', './images/unicorn.jpg')
+new Item('water-can', './images/water-can.jpg')
+new Item('wine-glass', './images/wine-glass.jpg')
 
 function handleClick(event) {
   event.preventDefault();
@@ -58,62 +75,42 @@ function handleClick(event) {
   console.log(clickItem);
 
   for (let i = 0; i < saleItems.length; i++) {
-if (clickItem === saleItems[i].name) {
-saleItems[i].clicks++;
-break;
-}
+    if (clickItem === saleItems[i].name) {
+      saleItems[i].clicks++;
+      break;
+    }
   }
 
   renderCatalog();
   if (clicks === clicksAllowed) {
-    resultsButton.style.display = 'block';
-    // resultsButton.addEventListener('click', handleViewResults);
     myCatalog.removeEventListener('click', handleClick);
     renderChart();
-
+    storeItem();
   }
 }
 
 
 
-new item('bag')
-new item('banana')
-new item('bathroom')
-new item('boots')
-new item('breakfast')
-new item('bubblegum')
-new item('chair')
-new item('cthulhu')
-new item('dog-duck')
-new item('dragon')
-new item('pen')
-new item('pet-sweep')
-new item('scissors')
-new item('shark')
-new item('sweep', 'png')
-new item('tauntaun')
-new item('unicorn')
-new item('water-can')
-new item('wine-glass')
+
 //
 
 function renderChart() {
   let itemNames = [];
-for (let i = 0; i < saleItems.length; i++) {
-  itemNames.push(saleItems[i].name)
+  for (let i = 0; i < saleItems.length; i++) {
+    itemNames.push(saleItems[i].name)
 
-};
-let itemClicks = [];
-for (let i = 0; i < saleItems.length; i++) {
-  itemClicks.push(saleItems[i].clicks)
+  };
+  let itemClicks = [];
+  for (let i = 0; i < saleItems.length; i++) {
+    itemClicks.push(saleItems[i].clicks)
 
-};
+  };
 
-let itemViews = [];
-for (let i = 0; i < saleItems.length; i++) {
-  itemViews.push(saleItems[i].views)
+  let itemViews = [];
+  for (let i = 0; i < saleItems.length; i++) {
+    itemViews.push(saleItems[i].views)
 
-};
+  };
   let ctx = document.getElementById('myChart').getContext('2d');
   let myChart = new Chart(ctx, {
     type: 'bar',
@@ -172,8 +169,34 @@ for (let i = 0; i < saleItems.length; i++) {
   });
 }
 
+function storeItem() {
+  let storedItems = JSON.stringify(saleItems);
+  localStorage.setItem('items', storedItems)
+}
+function getStoreItem() {
+  let potentionalItems = localStorage.getItem('items')
+  if (potentionalItems) {
+    let restoredItems = JSON.parse(potentionalItems);
+    console.log(restoredItems);
+    for (let item of restoredItems) {
+      let name = item.name
+      let src = item.src
+      let newItem = new Item(name, src);
+      newItem.views = item.views
+      newItem.clicks = item.clicks
 
+
+      console.log(newItem);
+    }
+  }
+
+
+}
+
+getStoreItem();
 renderCatalog();
 myCatalog.addEventListener('click', handleClick);
+
+
 // renderCatalog();
 // myButton.addEventListener('click', renderResults);
